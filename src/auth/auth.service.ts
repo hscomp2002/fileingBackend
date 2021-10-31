@@ -4,6 +4,8 @@ import { Customer } from 'src/customer/entities/customer.entity';
 import { Repository } from 'typeorm';
 import { Md5 } from "md5-typescript";
 import { JwtService } from '@nestjs/jwt';
+import Login from 'src/dto/login.dto';
+
 
 @Injectable()
 export class AuthService {
@@ -13,18 +15,16 @@ export class AuthService {
         private jwtService: JwtService
     ) { }
 
-    async validateUser(username: string, pass: string): Promise<any> {
-        let customer = await this.customersRepository.findOne({user_login:username});
-        if (customer && customer.user_pass === Md5.init(pass)) {
-            const { user_pass, ...result } = customer;
-            return result;
+    async validateUser(loginInfo: Login): Promise<any> {
+        let customer = await this.customersRepository.findOne({ user_login: loginInfo.username });
+        if (customer && customer.user_pass === Md5.init(loginInfo.password)) {
+            delete customer.user_pass;
+            return customer;
         }
         return null;
     }
-    async login(customer: any) {
+    async login(customer: Customer) {
         const payload = { username: customer.user_login, sub: customer.id };
-        return {
-          access_token: this.jwtService.sign(payload),
-        };
-      }
+        return this.jwtService.sign(payload);
+    }
 }

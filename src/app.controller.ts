@@ -7,12 +7,13 @@ export class AppController {
   constructor(private authService: AuthService) { }
 
   @Post('auth/login')
-  async login(@Body() loginInfo:Login) {
-    const res = await this.authService.validateUser(loginInfo.username, loginInfo.password);
+  async login(@Body() loginInfo: Login) {
+    const res = await this.authService.validateUser(loginInfo);
     if (!res) {
-      throw new BadRequestException('User not found'); 
+      throw new BadRequestException('User not found');
     }
-    return this.authService.login(res);
+    const token = await this.authService.login(res);
+    return { token, ...res };
   }
 
 }
