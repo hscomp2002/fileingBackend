@@ -1,12 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Post, UseGuards, Request, BadRequestException, Body } from '@nestjs/common';
+import { AuthService } from './auth/auth.service';
+import Login from './dto/login.dto';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private authService: AuthService) { }
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Post('auth/login')
+  async login(@Body() loginInfo:Login) {
+    const res = await this.authService.validateUser(loginInfo.username, loginInfo.password);
+    if (!res) {
+      throw new BadRequestException('User not found'); 
+    }
+    return this.authService.login(res);
   }
+
 }

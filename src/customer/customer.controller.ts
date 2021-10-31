@@ -1,27 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query ,UseGuards ,Request} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Request } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import GetAllPaginated from './dto/get-all-paginated-dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+
 
 @Controller('customer')
 export class CustomerController {
-  constructor(private readonly customerService: CustomerService) {}
-  
-  @Post('auth/login')
-  async login(@Request() req) {
-    return req.user;
-  }
+  constructor(private readonly customerService: CustomerService) { }
+
 
   @Post()
   create(@Body() createCustomerDto: CreateCustomerDto) {
     return this.customerService.create(createCustomerDto);
   }
 
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(JwtAuthGuard)
   @Get()
-  findAll(@Query() query: GetAllPaginated ) {
+  findAll(@Query() query: GetAllPaginated) {
     return this.customerService.findAll(query);
   }
 
