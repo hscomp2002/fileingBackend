@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 import { CustomerModule } from './customer/customer.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { SaleModule } from './sale/sale.module';
+import { ConfigModule } from '@nestjs/config';
+
 
 
 @Module({
@@ -12,7 +15,11 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     TypeOrmModule.forRoot(),
     CustomerModule,
-    AuthModule
+    AuthModule,
+    SaleModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    })
   ],
 })
 export class AppModule { }
