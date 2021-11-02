@@ -1,12 +1,14 @@
-import { IsNumberString, IsOptional } from "class-validator";
+import {  IsNumberString, IsOptional, IsPositive } from "class-validator";
 
 export default class GetAllPaginated {
     @IsNumberString()
     @IsOptional()
-    public skip:number;
+    @IsPositive()
+    public page: number;
 
     @IsNumberString()
     @IsOptional()
+    @IsPositive()
     public take: number;
 
     @IsOptional()

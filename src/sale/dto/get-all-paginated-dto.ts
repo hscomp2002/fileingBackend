@@ -1,9 +1,9 @@
-import { IsNumberString, IsOptional } from "class-validator";
+import { IsIn, IsNumberString, IsOptional } from "class-validator";
 
 export default class GetAllPaginated {
     @IsNumberString()
     @IsOptional()
-    public skip:number;
+    public page: number;
 
     @IsNumberString()
     @IsOptional()
@@ -14,27 +14,25 @@ export default class GetAllPaginated {
     public mahdoode: string;
 
     @IsNumberString()
+    @IsIn(["1", "2"])
     @IsOptional()
     public type: number;
 
-    @IsNumberString()
-    @IsOptional()
-    public minPrice:number;
 
     @IsNumberString()
     @IsOptional()
-    public maxPrice:number;
+    public minPrice: number;
 
     @IsNumberString()
     @IsOptional()
-    public minArea:number;
+    public maxPrice: number;
 
     @IsNumberString()
     @IsOptional()
-    public maxArea:number;
+    public minSenbana: number;
 
     @IsNumberString()
     @IsOptional()
-    public senbana:number
+    public maxSenbana: number;
 
 }

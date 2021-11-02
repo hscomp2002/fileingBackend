@@ -21,7 +21,7 @@ export class CustomerService {
 
   async findAll(query: GetAllPaginated) {
     const take = query.take || +process.env.PER_PAGE_COUNT;
-    const skip = query.skip || 0;
+    const skip = query.page - 1 || 0;
     const keyword = query.keyword || '';
 
     const [result, total] = await this.customersRepository.findAndCount(
