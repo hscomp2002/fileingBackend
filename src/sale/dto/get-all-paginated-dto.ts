@@ -1,4 +1,4 @@
-import { IsIn, IsNumberString, IsOptional } from "class-validator";
+import { IsIn, IsNumberString, IsOptional, IsString } from "class-validator";
 
 export default class GetAllPaginated {
     @IsNumberString()
@@ -9,7 +9,7 @@ export default class GetAllPaginated {
     @IsOptional()
     public take: number;
 
-    @IsNumberString()
+    @IsString()
     @IsOptional()
     public mahdoode: string;
 

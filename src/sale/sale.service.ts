@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Console } from 'console';
 import { Repository } from 'typeorm';
 import GetAllPaginated from './dto/get-all-paginated-dto';
 import { Sale } from './entities/sale.entity';
@@ -14,7 +15,7 @@ export class SaleService {
   private parseQuery(query: GetAllPaginated): string {
     let where: string = "1=1";
     if (query.mahdoode) {
-      where += ' AND mahdoode LIKE %' + query.mahdoode + '%';
+      where += " AND mahdoode LIKE '%" + query.mahdoode + "%'";
     }
 
     if (query.type) {
@@ -52,6 +53,12 @@ export class SaleService {
       .skip(skip)
       .take(take)
       .getManyAndCount();
+
+    // console.log(this.saleRepository.createQueryBuilder("amlak_eft")
+    // .where(where)
+    // .skip(skip)
+    // .take(take)
+    // .getSql())
     return {
       data,
       count
