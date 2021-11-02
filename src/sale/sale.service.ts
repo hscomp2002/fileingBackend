@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Console } from 'console';
 import { Repository } from 'typeorm';
 import GetAllPaginated from './dto/get-all-paginated-dto';
 import { Sale } from './entities/sale.entity';

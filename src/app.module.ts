@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { SaleModule } from './sale/sale.module';
 import { ConfigModule } from '@nestjs/config';
+import { RentModule } from './rent/rent.module';
 
 
 
@@ -19,7 +20,8 @@ import { ConfigModule } from '@nestjs/config';
     SaleModule,
     ConfigModule.forRoot({
       isGlobal: true,
-    })
+    }),
+    RentModule
   ],
 })
 export class AppModule { }
