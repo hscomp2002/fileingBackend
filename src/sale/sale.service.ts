@@ -12,7 +12,7 @@ export class SaleService {
   ) { }
 
   private parseQuery(query: GetAllPaginated): string {
-    let where: string = "1=1";
+    let where: string = "DATE(tarikh) >= DATE_SUB(now(), INTERVAL 6 MONTH)";
     if (query.mahdoode) {
       where += " AND mahdoode LIKE '%" + query.mahdoode + "%'";
     }

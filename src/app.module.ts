@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { SaleModule } from './sale/sale.module';
 import { ConfigModule } from '@nestjs/config';
 import { RentModule } from './rent/rent.module';
+import { CustomersMahdoodeModule } from './customers-mahdoode/customers-mahdoode.module';
 
 
 
@@ -21,7 +22,8 @@ import { RentModule } from './rent/rent.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    RentModule
+    RentModule,
+    CustomersMahdoodeModule
   ],
 })
 export class AppModule { }
