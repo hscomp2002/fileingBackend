@@ -73,9 +73,6 @@ export class Rent {
     parking: string;
 
     @Column({type: 'varchar',length:50})
-    bar: string;
-
-    @Column({type: 'varchar',length:50})
     anbar: string;
 
     @Column({type: 'varchar',length:50})
