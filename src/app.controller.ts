@@ -1,10 +1,10 @@
-import { Controller, Get, Post, UseGuards, Request, BadRequestException, Body } from '@nestjs/common';
+import { Controller, Post, BadRequestException, Body } from '@nestjs/common';
 import { AuthService } from './auth/auth.service';
 import Login from './dto/login.dto';
 
 @Controller()
 export class AppController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Post('auth/login')
   async login(@Body() loginInfo: Login) {
@@ -15,5 +15,4 @@ export class AppController {
     const token = await this.authService.login(res);
     return { token, ...res };
   }
-
 }

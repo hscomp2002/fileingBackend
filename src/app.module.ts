@@ -9,13 +9,20 @@ import { ConfigModule } from '@nestjs/config';
 import { RentModule } from './rent/rent.module';
 import { CustomersMahdoodeModule } from './customers-mahdoode/customers-mahdoode.module';
 
-
-
 @Module({
   controllers: [AppController],
   providers: [AppService],
   imports: [
-    TypeOrmModule.forRoot(),
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '3068145',
+      database: 'fileing',
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      synchronize: false,
+    }),
     CustomerModule,
     AuthModule,
     SaleModule,
@@ -23,7 +30,7 @@ import { CustomersMahdoodeModule } from './customers-mahdoode/customers-mahdoode
       isGlobal: true,
     }),
     RentModule,
-    CustomersMahdoodeModule
+    CustomersMahdoodeModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}
