@@ -1,113 +1,110 @@
-
 import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
 
-@Entity({name:'amlak_eft'})
+@Entity({ name: 'amlak_eft' })
 export class Sale {
-    @PrimaryGeneratedColumn("uuid")
-    id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: number;
 
-    @Column({type: 'timestamp'})
-    tarikh: Date;
+  @Column({ type: 'timestamp' })
+  tarikh: Date;
 
-    @Column({type: 'varchar',length:100})
-    manba: string;
+  @Column({ type: 'varchar', length: 100 })
+  manba: string;
 
-    @Column()
-    radif: number;
-    
-    @Column({type: 'varchar',length:100})
-    owner: string;
+  @Column()
+  radif: number;
 
-    @Column({type: 'varchar',length:15})
-    tel: string;
+  @Column({ type: 'varchar', length: 100 })
+  owner: string;
 
-    @Column({type: 'text'})
-    addr: string;
+  @Column({ type: 'varchar', length: 15 })
+  tel: string;
 
-    @Index()
-    @Column({type: 'varchar',length:100})
-    mahdoode: string;
+  @Column({ type: 'text' })
+  addr: string;
 
-    @Column()
-    area: number;
+  @Index()
+  @Column({ type: 'varchar', length: 100 })
+  mahdoode: string;
 
-    @Column()
-    zirbana: number; 
+  @Column()
+  area: number;
 
-    @Column({type: 'varchar',length:100})
-    tabaghe: string;
+  @Column()
+  zirbana: number;
 
-    @Column()
-    tedadtabaghe: number;
+  @Column({ type: 'varchar', length: 100 })
+  tabaghe: string;
 
-    @Column()
-    tedadvahed: number;
+  @Column()
+  tedadtabaghe: number;
 
-    @Column()
-    tedadkhab: number;
+  @Column()
+  tedadvahed: number;
 
-    @Column({type: 'varchar',length:100})
-    jahat: string;
+  @Column()
+  tedadkhab: number;
 
-    @Column()
-    senbana: number;
+  @Column({ type: 'varchar', length: 100 })
+  jahat: string;
 
-    @Column({type: 'varchar',length:100})
-    sanadtype: string;
+  @Column()
+  senbana: number;
 
-    @Column({type: 'varchar',length:100})
-    kaf: string;
+  @Column({ type: 'varchar', length: 100 })
+  sanadtype: string;
 
-    @Column({type: 'varchar',length:100})
-    divar: string;
+  @Column({ type: 'varchar', length: 100 })
+  kaf: string;
 
-    @Column({type: 'varchar',length:100})
-    kabinet: string;
+  @Column({ type: 'varchar', length: 100 })
+  divar: string;
 
-    @Column({type: 'varchar',length:100})
-    garmaiesh: string;
+  @Column({ type: 'varchar', length: 100 })
+  kabinet: string;
 
-    @Column({type: 'varchar',length:100})
-    sarmaiesh: string;
+  @Column({ type: 'varchar', length: 100 })
+  garmaiesh: string;
 
-    @Column({type: 'text'})
-    toz: string;
+  @Column({ type: 'varchar', length: 100 })
+  sarmaiesh: string;
 
-    @Column({type: 'varchar',length:50})
-    parking: string;
+  @Column({ type: 'text' })
+  toz: string;
 
-    @Column({type: 'varchar',length:50})
-    bar: string;
+  @Column({ type: 'varchar', length: 50 })
+  parking: string;
 
-    @Column({type: 'varchar',length:50})
-    anbar: string;
+  @Column({ type: 'varchar', length: 50 })
+  bar: string;
 
-    @Column({type: 'varchar',length:50})
-    asansor: string;
+  @Column({ type: 'varchar', length: 50 })
+  anbar: string;
 
-    @Column({type: 'varchar',length:50})
-    tarakom: string;
+  @Column({ type: 'varchar', length: 50 })
+  asansor: string;
 
-    @Column({type: 'float'})
-    ghimatmetr: number;
+  @Column({ type: 'varchar', length: 50 })
+  tarakom: string;
 
-    @Column({type: 'float'})
-    ghimatkol: number;
+  @Column({ type: 'float' })
+  ghimatmetr: number;
 
-    @Column({type: 'varchar',length:100})
-    type: string;
+  @Column({ type: 'float' })
+  ghimatkol: number;
 
-    @Column({type: 'varchar',length:100})
-    mantaghe: string;
+  @Column({ type: 'varchar', length: 100 })
+  type: string;
 
+  @Column({ type: 'varchar', length: 100 })
+  mantaghe: string;
 
-    @Column({type: 'int'})
-    en: number;
+  @Column({ type: 'int' })
+  en: number;
 
-    @Column({type: 'int'})
-    issend: number;
+  @Column({ type: 'int' })
+  issend: number;
 
-    @Column({type: 'int'})
-    message_id: number;
-
+  @Column({ type: 'int' })
+  message_id: number;
 }

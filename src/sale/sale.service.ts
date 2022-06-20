@@ -9,10 +9,10 @@ export class SaleService {
   constructor(
     @InjectRepository(Sale)
     private saleRepository: Repository<Sale>,
-  ) { }
+  ) {}
 
   private parseQuery(query: GetAllPaginated): string {
-    let where: string = "DATE(tarikh) >= DATE_SUB(now(), INTERVAL 6 MONTH)";
+    let where = 'DATE(tarikh) >= DATE_SUB(now(), INTERVAL 6 MONTH)';
     if (query.mahdoode) {
       where += " AND mahdoode LIKE '%" + query.mahdoode + "%'";
     }
@@ -22,13 +22,21 @@ export class SaleService {
     }
 
     if (query.minPrice) {
-      const minPrice = query.minPrice < +process.env.MILION_BELLION_BORDER ? +query.minPrice * 1000 : query.minPrice
-      where += ` AND if(ghimatkol<${+process.env.MILION_BELLION_BORDER} AND ghimatkol>0,ghimatkol*1000,ghimatkol)>=${minPrice}`;
+      const minPrice =
+        query.minPrice < +process.env.MILION_BELLION_BORDER
+          ? +query.minPrice * 1000
+          : query.minPrice;
+      where += ` AND if(ghimatkol<${+process.env
+        .MILION_BELLION_BORDER} AND ghimatkol>0,ghimatkol*1000,ghimatkol)>=${minPrice}`;
     }
 
     if (query.maxPrice) {
-      const maxPrice = query.maxPrice < +process.env.MILION_BELLION_BORDER ? +query.maxPrice * 1000 : query.maxPrice
-      where += ` AND if(ghimatkol<${+process.env.MILION_BELLION_BORDER} AND ghimatkol>0,ghimatkol*1000,ghimatkol)<=${maxPrice}`;
+      const maxPrice =
+        query.maxPrice < +process.env.MILION_BELLION_BORDER
+          ? +query.maxPrice * 1000
+          : query.maxPrice;
+      where += ` AND if(ghimatkol<${+process.env
+        .MILION_BELLION_BORDER} AND ghimatkol>0,ghimatkol*1000,ghimatkol)<=${maxPrice}`;
     }
 
     if (query.minSenbana) {
@@ -43,29 +51,30 @@ export class SaleService {
   }
 
   async findAll(query: GetAllPaginated) {
-    const take = query.take || +process.env.PER_PAGE_COUNT;
-    const skip = query.page - 1 || 0;
+    const take: number = query.take || +process.env.PER_PAGE_COUNT;
+    const skip: number = query.page - 1 || 0;
     const where: string = this.parseQuery(query);
 
-    const [data, count] = await this.saleRepository.createQueryBuilder("amlak_eft")
+    const [data, count] = await this.saleRepository
+      .createQueryBuilder('amlak_eft')
       .where(where)
       .skip(skip)
       .take(take)
+      .orderBy('amlak_eft.tarikh', 'DESC')
       .getManyAndCount();
 
-    // console.log(this.saleRepository.createQueryBuilder("amlak_eft")
-    // .where(where)
-    // .skip(skip)
-    // .take(take)
-    // .getSql())
     return {
       data,
-      count
-    }
+      pagination: {
+        count,
+        currentPage: skip + 1,
+        lastPage: Math.ceil(count / take),
+        perPage: take,
+      },
+    };
   }
 
   findOne(id: number) {
     return `This action returns a #${id} sale`;
   }
-
 }

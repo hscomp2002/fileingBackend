@@ -1,4 +1,4 @@
-import { Controller, Get , Param, Query, UseGuards, } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import GetAllPaginated from './dto/get-all-paginated-dto';
 import { SaleService } from './sale.service';
@@ -9,7 +9,7 @@ export class SaleController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll(@Query() query:GetAllPaginated) {
+  findAll(@Query() query: GetAllPaginated) {
     return this.saleService.findAll(query);
   }
 
@@ -17,5 +17,4 @@ export class SaleController {
   findOne(@Param('id') id: string) {
     return this.saleService.findOne(+id);
   }
-
 }
