@@ -12,7 +12,7 @@ export class AuthService {
     @InjectRepository(Customer)
     private customersRepository: Repository<Customer>,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async validateUser(loginInfo: Login): Promise<any> {
     const customer = await this.customersRepository.findOne({
@@ -26,6 +26,8 @@ export class AuthService {
   }
   async login(customer: Customer) {
     const payload = { username: customer.user_login, sub: customer.id };
-    return this.jwtService.sign(payload);
+    return this.jwtService.sign(payload, {
+      expiresIn: '1d',
+    });
   }
 }
