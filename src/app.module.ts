@@ -8,6 +8,8 @@ import { SaleModule } from './sale/sale.module';
 import { ConfigModule } from '@nestjs/config';
 import { RentModule } from './rent/rent.module';
 import { CustomersMahdoodeModule } from './customers-mahdoode/customers-mahdoode.module';
+import { MahdoodeModule } from './mahdoode/mahdoode.module';
+import { MahdoodeDetModule } from './mahdoode_det/mahdoode_det.module';
 
 @Module({
   controllers: [AppController],
@@ -31,6 +33,8 @@ import { CustomersMahdoodeModule } from './customers-mahdoode/customers-mahdoode
     }),
     RentModule,
     CustomersMahdoodeModule,
+    MahdoodeModule,
+    MahdoodeDetModule,
   ],
 })
 export class AppModule {}

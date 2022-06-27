@@ -9,11 +9,10 @@ import GetAllPaginated from './dto/get-all-paginated-dto';
 
 @Injectable()
 export class CustomerService {
-
   constructor(
     @InjectRepository(Customer)
     private customersRepository: Repository<Customer>,
-  ) { }
+  ) {}
 
   create(createCustomerDto: CreateCustomerDto) {
     return 'This action adds a new customer';
@@ -24,18 +23,17 @@ export class CustomerService {
     const skip = query.page - 1 || 0;
     const keyword = query.keyword || '';
 
-    const [result, total] = await this.customersRepository.findAndCount(
-      {
-        where: { name: Like('%' + keyword + '%') }, order: { name: "ASC" },
-        take: take,
-        skip: skip
-      }
-    );
+    const [result, total] = await this.customersRepository.findAndCount({
+      where: { name: Like('%' + keyword + '%') },
+      order: { name: 'ASC' },
+      take: take,
+      skip: skip,
+    });
 
     return {
       data: result,
-      count: total
-    }
+      count: total,
+    };
   }
 
   findOne(id: number) {
