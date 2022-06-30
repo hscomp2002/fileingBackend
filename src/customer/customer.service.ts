@@ -24,6 +24,7 @@ export class CustomerService {
     const keyword = query.keyword || '';
 
     const [result, total] = await this.customersRepository.findAndCount({
+      select: ['id', 'name', 'amlak_name', 'addr', 'tel', 'en', 'mahdoode_id'],
       where: { name: Like('%' + keyword + '%') },
       order: { name: 'ASC' },
       take: take,

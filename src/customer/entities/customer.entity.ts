@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Mahdoode } from '../../mahdoode/entities/mahdoode.entity';
 
 @Entity({ name: 'cutomers' })
 export class Customer {
@@ -28,4 +35,8 @@ export class Customer {
 
   @Column('varchar', { length: 2000 })
   user_pass: string;
+
+  @OneToOne(() => Mahdoode, (mahdoode) => mahdoode.customer)
+  @JoinColumn({ name: 'mahdoode_id' })
+  mahdoode: Mahdoode;
 }
