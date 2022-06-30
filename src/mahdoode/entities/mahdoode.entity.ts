@@ -20,8 +20,4 @@ export class Mahdoode {
   @OneToMany(() => MahdoodeDet, (mahdoodeDet) => mahdoodeDet.mahdoode)
   @JoinColumn({ name: 'mahdoode_id' })
   mahdoodeDets: MahdoodeDet[];
-
-  @OneToOne(() => Customer, (customer) => customer.mahdoode)
-  @JoinColumn({ name: 'mahdoode_id' })
-  customer: Customer;
 }

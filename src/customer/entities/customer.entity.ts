@@ -35,8 +35,4 @@ export class Customer {
 
   @Column('varchar', { length: 2000 })
   user_pass: string;
-
-  @OneToOne(() => Mahdoode, (mahdoode) => mahdoode.customer)
-  @JoinColumn({ name: 'mahdoode_id' })
-  mahdoode: Mahdoode;
 }
