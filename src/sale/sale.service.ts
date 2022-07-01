@@ -17,34 +17,34 @@ export class SaleService {
       where += " AND mahdoode LIKE '%" + query.mahdoode + "%'";
     }
 
-    if (query.type) {
-      where += ' AND `type`=' + query.type;
-    }
-
-    if (query.minPrice) {
+    if (query.minGhimatkol) {
       const minPrice =
-        query.minPrice < +process.env.MILION_BELLION_BORDER
-          ? +query.minPrice * 1000
-          : query.minPrice;
+        query.minGhimatkol < +process.env.MILION_BELLION_BORDER
+          ? +query.minGhimatkol * 1000
+          : query.minGhimatkol;
       where += ` AND if(ghimatkol<${+process.env
         .MILION_BELLION_BORDER} AND ghimatkol>0,ghimatkol*1000,ghimatkol)>=${minPrice}`;
     }
 
-    if (query.maxPrice) {
+    if (query.maxGhimatkol) {
       const maxPrice =
-        query.maxPrice < +process.env.MILION_BELLION_BORDER
-          ? +query.maxPrice * 1000
-          : query.maxPrice;
+        query.maxGhimatkol < +process.env.MILION_BELLION_BORDER
+          ? +query.maxGhimatkol * 1000
+          : query.maxGhimatkol;
       where += ` AND if(ghimatkol<${+process.env
         .MILION_BELLION_BORDER} AND ghimatkol>0,ghimatkol*1000,ghimatkol)<=${maxPrice}`;
     }
 
-    if (query.minSenbana) {
-      where += ` AND senbana >= ${query.minSenbana}`;
+    if (query.minZirbana) {
+      where += ` AND senbana >= ${query.minZirbana}`;
     }
 
-    if (query.maxSenbana) {
-      where += ` AND senbana <= ${query.maxSenbana}`;
+    if (query.maxZirbana) {
+      where += ` AND senbana <= ${query.maxZirbana}`;
+    }
+
+    if (query.type.length) {
+      where += ' AND `type` in (' + query.type.join(',') + ')';
     }
 
     return where;
