@@ -53,7 +53,7 @@ export class SaleService {
 
     if (query.tedadkhab && query.tedadkhab.length) {
       let more = false;
-      let tmpTedadkhabe = '  ';
+      let tmpTedadkhabe = '';
       for (const type of query.tedadkhab) {
         if (type === 'بیشتر') {
           more = true;
