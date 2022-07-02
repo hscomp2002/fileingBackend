@@ -43,8 +43,89 @@ export class SaleService {
       where += ` AND senbana <= ${query.maxZirbana}`;
     }
 
-    if (query.type.length) {
-      where += ' AND `type` in (' + query.type.join(',') + ')';
+    if (query.type && query.type.length) {
+      let tmpType = '';
+      for (const type of query.type) {
+        tmpType += tmpType === '' ? `'${type}'` : `,'${type}'`;
+      }
+      where += ' AND `type` in (' + tmpType + ')';
+    }
+
+    if (query.tedadkhab && query.tedadkhab.length) {
+      let more = false;
+      let tmpTedadkhabe = '  ';
+      for (const type of query.tedadkhab) {
+        if (type === 'بیشتر') {
+          more = true;
+          continue;
+        }
+        tmpTedadkhabe += tmpTedadkhabe === '' ? `'${type}'` : `,'${type}'`;
+      }
+
+      if (more) {
+        where +=
+          ' AND ( `tedadkhab` in (' +
+          (tmpTedadkhabe === '' ? "''" : tmpTedadkhabe) +
+          ') or `tedadkhab` > 5)';
+      } else {
+        where += ' AND `tedadkhab` in (' + tmpTedadkhabe + ')';
+      }
+    }
+
+    if (query.tabaghe && query.tabaghe.length) {
+      let more = false;
+      let tmpTabaghe = '';
+      for (const type of query.tabaghe) {
+        if (type === 'بیشتر') {
+          more = true;
+          continue;
+        }
+        tmpTabaghe += tmpTabaghe === '' ? `'${type}'` : `,'${type}'`;
+      }
+
+      if (more) {
+        where +=
+          ' AND ( `tabaghe` in (' +
+          (tmpTabaghe === '' ? "''" : tmpTabaghe) +
+          ') or `tabaghe` > 5 ) ';
+      } else {
+        where += ' AND `tabaghe` in (' + tmpTabaghe + ')';
+      }
+    }
+
+    if (query.sanadtype && query.sanadtype.length) {
+      let tmpSanadtype = '';
+      for (const type of query.sanadtype) {
+        tmpSanadtype += tmpSanadtype === '' ? `'${type}'` : `,'${type}'`;
+      }
+      where += ' AND `sanadtype` in (' + tmpSanadtype + ')';
+    }
+
+    if (query.senbana && query.senbana.length) {
+      let more = false;
+      let tmpSenbana = '';
+      for (const type of query.senbana) {
+        if (type === 'بیشتر') {
+          more = true;
+          continue;
+        }
+        tmpSenbana += tmpSenbana === '' ? `'${type}'` : `,'${type}'`;
+      }
+
+      if (more) {
+        where +=
+          ' AND (`senbana` in (' +
+          (tmpSenbana === '' ? "''" : tmpSenbana) +
+          ') or `senbana` > 10 ) ';
+      } else {
+        where += ' AND `senbana` in (' + tmpSenbana + ')';
+      }
+    }
+
+    if (query.options && query.options.length) {
+      for (const option of query.options) {
+        where += ' AND `' + option + "`='دارد'";
+      }
     }
 
     return where;
@@ -55,6 +136,15 @@ export class SaleService {
     const skip: number = query.page - 1 || 0;
     const where: string = this.parseQuery(query);
 
+    // const test = await this.saleRepository
+    //   .createQueryBuilder('amlak_eft')
+    //   .where(where)
+    //   .skip(skip)
+    //   .take(take)
+    //   .orderBy('amlak_eft.tarikh', 'DESC')
+    //   .getSql();
+    // console.log(test);
+    // return test;
     const [data, count] = await this.saleRepository
       .createQueryBuilder('amlak_eft')
       .where(where)

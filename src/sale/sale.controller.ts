@@ -10,7 +10,6 @@ export class SaleController {
   @UseGuards(JwtAuthGuard)
   @Get()
   findAll(@Query() query: GetAllPaginated) {
-    console.log(query);
     return this.saleService.findAll(query);
   }
 

@@ -15,12 +15,11 @@ export default class GetAllPaginated {
   @IsOptional()
   public take: number;
 
-  @IsString()
+  @IsArray()
   @IsOptional()
   public mahdoode: string;
 
   @IsArray()
-  //@IsIn(['1', '2'])
   @IsOptional()
   public type: string[];
 
@@ -39,4 +38,24 @@ export default class GetAllPaginated {
   @IsNumberString()
   @IsOptional()
   public maxZirbana: number;
+
+  @IsArray()
+  @IsOptional()
+  public tedadkhab: string[];
+
+  @IsArray()
+  @IsOptional()
+  public tabaghe: string[];
+
+  @IsArray()
+  @IsOptional()
+  public sanadtype: string[];
+
+  @IsArray()
+  @IsOptional()
+  public senbana: string[];
+
+  @IsArray()
+  @IsOptional()
+  public options: string[];
 }
