@@ -36,11 +36,11 @@ export class SaleService {
     }
 
     if (query.minZirbana) {
-      where += ` AND senbana >= ${query.minZirbana}`;
+      where += ` AND zirbana >= ${query.minZirbana}`;
     }
 
     if (query.maxZirbana) {
-      where += ` AND senbana <= ${query.maxZirbana}`;
+      where += ` AND zirbana <= ${query.maxZirbana}`;
     }
 
     if (query.type && query.type.length) {
