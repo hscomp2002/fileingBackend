@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Mahdoode } from '../mahdoode/entities/mahdoode.entity';
 import { Repository } from 'typeorm';
 import GetAllPaginated from './dto/get-all-paginated-dto';
 import { Sale } from './entities/sale.entity';
@@ -9,12 +10,26 @@ export class SaleService {
   constructor(
     @InjectRepository(Sale)
     private saleRepository: Repository<Sale>,
+    @InjectRepository(Mahdoode)
+    private mahdoodeRepository: Repository<Mahdoode>,
   ) {}
 
-  private parseQuery(query: GetAllPaginated): string {
+  private async parseQuery(query: GetAllPaginated): Promise<string> {
     let where = 'DATE(tarikh) >= DATE_SUB(now(), INTERVAL 6 MONTH)';
     if (query.mahdoode) {
-      where += " AND mahdoode LIKE '%" + query.mahdoode + "%'";
+      const mahdoode = await this.mahdoodeRepository.findOne({
+        select: ['id', 'mahdoodeDets'],
+        where: { id: query.mahdoode },
+      });
+      let mahdoodeString = '';
+      for (const i in mahdoode.mahdoodeDets) {
+        mahdoodeString +=
+          mahdoodeString === ''
+            ? `'${mahdoode.mahdoodeDets[i].name}'`
+            : `,'${mahdoode.mahdoodeDets[i].name}'`;
+      }
+      //console.log(mahdoodeString);
+      where += ` AND mahdoode in (${mahdoodeString})`;
     }
 
     if (query.minGhimatkol) {
@@ -134,7 +149,7 @@ export class SaleService {
   async findAll(query: GetAllPaginated) {
     const take: number = query.take || +process.env.PER_PAGE_COUNT;
     const skip: number = query.page - 1 || 0;
-    const where: string = this.parseQuery(query);
+    const where: string = await this.parseQuery(query);
 
     // const test = await this.saleRepository
     //   .createQueryBuilder('amlak_eft')

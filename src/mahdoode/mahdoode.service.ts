@@ -22,12 +22,12 @@ export class MahdoodeService {
     const skip = query.page - 1 || 0;
 
     const [result, total] = await this.mahdoodeRepository.findAndCount({
-      join: {
-        alias: 'mahdoode',
-        leftJoinAndSelect: {
-          mahdoode_dets: 'mahdoode.mahdoodeDets',
-        },
-      },
+      // join: {
+      //   alias: 'mahdoode',
+      //   leftJoinAndSelect: {
+      //     mahdoode_dets: 'mahdoode.mahdoodeDets',
+      //   },
+      // },
       order: { name: 'ASC' },
       take: take,
       skip: skip,
