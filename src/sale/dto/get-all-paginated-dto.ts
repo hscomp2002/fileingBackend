@@ -10,6 +10,7 @@ export default class GetAllPaginated {
   public take: number;
 
   @IsArray()
+  @IsOptional()
   public mahdoode: string[];
 
   @IsArray()
