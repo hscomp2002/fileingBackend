@@ -7,11 +7,9 @@ import GetAllPaginated from './dto/get-all-paginated-dto';
 export class RentController {
   constructor(private readonly rentService: RentService) {}
 
-
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll(@Query() query:GetAllPaginated) {
+  findAll(@Query() query: GetAllPaginated) {
     return this.rentService.findAll(query);
   }
-
 }

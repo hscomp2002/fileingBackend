@@ -1,10 +1,4 @@
-import {
-  IsArray,
-  IsIn,
-  IsNumberString,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsArray, IsNumberString, IsOptional } from 'class-validator';
 
 export default class GetAllPaginated {
   @IsNumberString()
@@ -16,8 +10,7 @@ export default class GetAllPaginated {
   public take: number;
 
   @IsArray()
-  @IsOptional()
-  public mahdoode: string;
+  public mahdoode: string[];
 
   @IsArray()
   @IsOptional()

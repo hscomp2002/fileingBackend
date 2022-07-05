@@ -4,6 +4,7 @@ import { Mahdoode } from '../mahdoode/entities/mahdoode.entity';
 import { Repository } from 'typeorm';
 import GetAllPaginated from './dto/get-all-paginated-dto';
 import { Sale } from './entities/sale.entity';
+import { In } from 'typeorm';
 
 @Injectable()
 export class SaleService {
@@ -17,16 +18,18 @@ export class SaleService {
   private async parseQuery(query: GetAllPaginated): Promise<string> {
     let where = 'DATE(tarikh) >= DATE_SUB(now(), INTERVAL 6 MONTH)';
     if (query.mahdoode) {
-      const mahdoode = await this.mahdoodeRepository.findOne({
+      const mahdoode = await this.mahdoodeRepository.find({
         select: ['id', 'mahdoodeDets'],
-        where: { id: query.mahdoode },
+        where: { id: In(query.mahdoode) },
       });
       let mahdoodeString = '';
-      for (const i in mahdoode.mahdoodeDets) {
-        mahdoodeString +=
-          mahdoodeString === ''
-            ? `'${mahdoode.mahdoodeDets[i].name}'`
-            : `,'${mahdoode.mahdoodeDets[i].name}'`;
+      for (const i in mahdoode) {
+        for (const j in mahdoode[i].mahdoodeDets) {
+          mahdoodeString +=
+            mahdoodeString === ''
+              ? `'${mahdoode[i].mahdoodeDets[j].name}'`
+              : `,'${mahdoode[i].mahdoodeDets[j].name}'`;
+        }
       }
       where += ` AND mahdoode in (${mahdoodeString})`;
     }
