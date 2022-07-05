@@ -28,7 +28,6 @@ export class SaleService {
             ? `'${mahdoode.mahdoodeDets[i].name}'`
             : `,'${mahdoode.mahdoodeDets[i].name}'`;
       }
-      //console.log(mahdoodeString);
       where += ` AND mahdoode in (${mahdoodeString})`;
     }
 
