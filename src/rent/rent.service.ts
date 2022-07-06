@@ -34,35 +34,110 @@ export class RentService {
       where += ` AND mahdoode in (${mahdoodeString})`;
     }
 
-    if (query.type) {
-      where += ' AND `type`=' + query.type;
-    }
-
     if (query.minRahn) {
-      const minRahn =
-        query.minRahn < +process.env.MILION_BELLION_BORDER
-          ? +query.minRahn * 1000
-          : query.minRahn;
-      where += ` AND if(rahn<${+process.env
-        .MILION_BELLION_BORDER} AND rahn>0,rahn*1000,rahn)>=${minRahn}`;
+      const minRahn = query.minRahn;
+      where += ` AND rahn >=${minRahn}`;
     }
 
     if (query.maxRahn) {
-      const maxRahn =
-        query.maxRahn < +process.env.MILION_BELLION_BORDER
-          ? +query.maxRahn * 1000
-          : query.maxRahn;
-      where += ` AND if(rahn<${+process.env
-        .MILION_BELLION_BORDER} AND rahn>0,rahn*1000,rahn)<=${maxRahn}`;
+      const maxRahn = query.maxRahn;
+      where += ` AND rahn <=${maxRahn}`;
     }
 
-    // if (query.minSenbana) {
-    //   where += ` AND senbana >= ${query.minSenbana}`;
-    // }
+    if (query.minEjare) {
+      const minEjare =
+        query.minEjare < +process.env.EJARE_MILION_BORDER
+          ? +query.minEjare * 1000
+          : query.minEjare;
+      where += ` AND if(ejare<${+process.env
+        .EJARE_MILION_BORDER} AND ejare>0,ejare*1000,ejare)>=${minEjare}`;
+    }
 
-    // if (query.maxSenbana) {
-    //   where += ` AND senbana <= ${query.maxSenbana}`;
-    // }
+    if (query.maxEjare) {
+      const maxEjare =
+        query.maxEjare < +process.env.MILION_BELLION_BORDER
+          ? +query.maxEjare * 1000
+          : query.maxEjare;
+      where += ` AND if(ejare<${+process.env
+        .MILION_BELLION_BORDER} AND ejare>0,ejare*1000,ejare)<=${maxEjare}`;
+    }
+
+    if (query.type && query.type.length) {
+      let tmpType = '';
+      for (const type of query.type) {
+        tmpType += tmpType === '' ? `'${type}'` : `,'${type}'`;
+      }
+      where += ' AND `type` in (' + tmpType + ')';
+    }
+
+    if (query.tedadkhab && query.tedadkhab.length) {
+      let more = false;
+      let tmpTedadkhabe = '';
+      for (const type of query.tedadkhab) {
+        if (type === 'بیشتر') {
+          more = true;
+          continue;
+        }
+        tmpTedadkhabe += tmpTedadkhabe === '' ? `'${type}'` : `,'${type}'`;
+      }
+
+      if (more) {
+        where +=
+          ' AND ( `tedadkhab` in (' +
+          (tmpTedadkhabe === '' ? "''" : tmpTedadkhabe) +
+          ') or `tedadkhab` > 5)';
+      } else {
+        where += ' AND `tedadkhab` in (' + tmpTedadkhabe + ')';
+      }
+    }
+
+    if (query.tabaghe && query.tabaghe.length) {
+      let more = false;
+      let tmpTabaghe = '';
+      for (const type of query.tabaghe) {
+        if (type === 'بیشتر') {
+          more = true;
+          continue;
+        }
+        tmpTabaghe += tmpTabaghe === '' ? `'${type}'` : `,'${type}'`;
+      }
+
+      if (more) {
+        where +=
+          ' AND ( `tabaghe` in (' +
+          (tmpTabaghe === '' ? "''" : tmpTabaghe) +
+          ') or `tabaghe` > 5 ) ';
+      } else {
+        where += ' AND `tabaghe` in (' + tmpTabaghe + ')';
+      }
+    }
+
+    if (query.senbana && query.senbana.length) {
+      let more = false;
+      let tmpSenbana = '';
+      for (const type of query.senbana) {
+        if (type === 'بیشتر') {
+          more = true;
+          continue;
+        }
+        tmpSenbana += tmpSenbana === '' ? `'${type}'` : `,'${type}'`;
+      }
+
+      if (more) {
+        where +=
+          ' AND (`senbana` in (' +
+          (tmpSenbana === '' ? "''" : tmpSenbana) +
+          ') or `senbana` > 10 ) ';
+      } else {
+        where += ' AND `senbana` in (' + tmpSenbana + ')';
+      }
+    }
+
+    if (query.options && query.options.length) {
+      for (const option of query.options) {
+        where += ' AND `' + option + "`='دارد'";
+      }
+    }
 
     return where;
   }
@@ -72,18 +147,23 @@ export class RentService {
     const skip = query.page - 1 || 0;
     const where: string = await this.parseQuery(query);
 
+    // const test = await this.rentRepository
+    //   .createQueryBuilder('ejare_eft')
+    //   .where(where)
+    //   .skip(skip)
+    //   .take(take)
+    //   .orderBy('ejare_eft.tarikh', 'DESC')
+    //   .getSql();
+    // console.log(test);
+    // return test;
     const [data, count] = await this.rentRepository
       .createQueryBuilder('ejare_eft')
       .where(where)
       .skip(skip)
       .take(take)
+      .orderBy('ejare_eft.tarikh', 'DESC')
       .getManyAndCount();
 
-    // console.log(this.rentRepository.createQueryBuilder("amlak_eft")
-    // .where(where)
-    // .skip(skip)
-    // .take(take)
-    // .getSql())
     return {
       data,
       pagination: {
