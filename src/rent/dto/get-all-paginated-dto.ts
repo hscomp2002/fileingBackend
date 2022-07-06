@@ -1,10 +1,4 @@
-import {
-  IsArray,
-  IsIn,
-  IsNumberString,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsArray, IsNumberString, IsOptional } from 'class-validator';
 
 export default class GetAllPaginated {
   @IsNumberString()
