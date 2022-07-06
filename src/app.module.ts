@@ -5,7 +5,7 @@ import { CustomerModule } from './customer/customer.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { SaleModule } from './sale/sale.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RentModule } from './rent/rent.module';
 import { CustomersMahdoodeModule } from './customers-mahdoode/customers-mahdoode.module';
 import { MahdoodeModule } from './mahdoode/mahdoode.module';
@@ -15,22 +15,28 @@ import { MahdoodeDetModule } from './mahdoode_det/mahdoode_det.module';
   controllers: [AppController],
   providers: [AppService],
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '3068145',
-      database: 'fileing',
-      entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: false,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => {
+        return {
+          type: 'mysql',
+          host: config.get('localhost'),
+          port: config.get('3306'),
+          username: config.get('DB_USER'),
+          password: config.get('DB_PASSWORD'),
+          database: config.get('DB_NAME'),
+          entities: ['dist/**/*.entity{.ts,.js}'],
+          synchronize: false,
+        };
+      },
+      inject: [ConfigService],
     }),
     CustomerModule,
     AuthModule,
     SaleModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
     RentModule,
     CustomersMahdoodeModule,
     MahdoodeModule,
