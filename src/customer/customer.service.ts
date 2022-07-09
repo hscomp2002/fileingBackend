@@ -28,7 +28,7 @@ export class CustomerService {
       where: { name: Like('%' + keyword + '%') },
       order: { name: 'ASC' },
       take: take,
-      skip: skip,
+      skip: skip * take,
     });
 
     return {

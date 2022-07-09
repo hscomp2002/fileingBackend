@@ -25,7 +25,7 @@ export class MahdoodeDetService {
     const [result, total] = await this.mahdoodeDetRepository.findAndCount({
       order: { name: 'ASC' },
       take: take,
-      skip: skip,
+      skip: skip * take,
     });
 
     return {

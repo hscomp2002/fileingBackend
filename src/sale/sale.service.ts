@@ -165,7 +165,7 @@ export class SaleService {
     const [data, count] = await this.saleRepository
       .createQueryBuilder('amlak_eft')
       .where(where)
-      .skip(skip)
+      .skip(skip * take)
       .take(take)
       .orderBy('amlak_eft.tarikh', 'DESC')
       .getManyAndCount();

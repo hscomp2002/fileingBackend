@@ -30,7 +30,7 @@ export class MahdoodeService {
       // },
       order: { name: 'ASC' },
       take: take,
-      skip: skip,
+      skip: skip * take,
     });
 
     return {

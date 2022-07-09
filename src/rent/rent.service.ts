@@ -159,7 +159,7 @@ export class RentService {
     const [data, count] = await this.rentRepository
       .createQueryBuilder('ejare_eft')
       .where(where)
-      .skip(skip)
+      .skip(skip * take)
       .take(take)
       .orderBy('ejare_eft.tarikh', 'DESC')
       .getManyAndCount();
