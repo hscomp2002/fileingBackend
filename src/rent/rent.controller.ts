@@ -1,7 +1,8 @@
-import { Controller, Get, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request } from '@nestjs/common';
 import { RentService } from './rent.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import GetAllPaginated from './dto/get-all-paginated-dto';
+import { UserInfoDto } from 'src/customer/dto/user-info.dto';
 
 @Controller('rent')
 export class RentController {
@@ -9,7 +10,10 @@ export class RentController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll(@Query() query: GetAllPaginated) {
-    return this.rentService.findAll(query);
+  findAll(@Request() req: any) {
+    return this.rentService.findAll(
+      req.query as GetAllPaginated,
+      req.user as UserInfoDto,
+    );
   }
 }
