@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { CustomerMahdoodes } from 'src/customers-mahdoode/entities/customers-mahdoode.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity({ name: 'cutomers' })
 export class Customer {
@@ -28,4 +35,12 @@ export class Customer {
 
   @Column('varchar', { length: 2000 })
   user_pass: string;
+
+  @OneToMany(
+    () => CustomerMahdoodes,
+    (customerMahdoodes) => customerMahdoodes.customer,
+    { eager: true },
+  )
+  @JoinColumn({ name: 'customer_id' })
+  customerMahdoodes: CustomerMahdoodes[];
 }

@@ -1,3 +1,4 @@
+import { CustomerMahdoodes } from 'src/customers-mahdoode/entities/customers-mahdoode.entity';
 import { MahdoodeDet } from 'src/mahdoode_det/entities/mahdoode_det.entity';
 import {
   Entity,
@@ -20,4 +21,11 @@ export class Mahdoode {
   })
   @JoinColumn({ name: 'mahdoode_id' })
   mahdoodeDets: MahdoodeDet[];
+
+  @OneToMany(
+    () => CustomerMahdoodes,
+    (customerMahdoodes) => customerMahdoodes.customer,
+  )
+  @JoinColumn({ name: 'mahdoode_id' })
+  customerMahdoodes: CustomerMahdoodes[];
 }

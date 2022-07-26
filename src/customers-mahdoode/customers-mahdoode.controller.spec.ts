@@ -11,7 +11,9 @@ describe('CustomersMahdoodeController', () => {
       providers: [CustomersMahdoodeService],
     }).compile();
 
-    controller = module.get<CustomersMahdoodeController>(CustomersMahdoodeController);
+    controller = module.get<CustomersMahdoodeController>(
+      CustomersMahdoodeController,
+    );
   });
 
   it('should be defined', () => {
