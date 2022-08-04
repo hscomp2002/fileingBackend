@@ -14,6 +14,7 @@ import { CreateMahdoodeDto } from './dto/create-mahdoode.dto';
 import { UpdateMahdoodeDto } from './dto/update-mahdoode.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import GetAllPaginated from './dto/get-all-paginated-dto';
+import GetAllPaginatedSub from './dto/get-all-paginated-dto-sub';
 
 @Controller('mahdoode')
 export class MahdoodeController {
@@ -28,6 +29,12 @@ export class MahdoodeController {
   @Get()
   findAll(@Query() query: GetAllPaginated) {
     return this.mahdoodeService.findAll(query);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/sub-mahdoode')
+  findSubMahdoode(@Query() query: GetAllPaginatedSub) {
+    return this.mahdoodeService.findSubMahdoode(query);
   }
 
   @Get(':id')

@@ -204,7 +204,7 @@ export class RentService {
         count,
         currentPage: skip + 1,
         lastPage: Math.ceil(count / take),
-        perPage: take,
+        perPage: +take,
       },
     };
   }

@@ -5,7 +5,8 @@ import { Mahdoode } from './entities/mahdoode.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import GetAllPaginated from './dto/get-all-paginated-dto';
-
+import GetAllPaginatedSub from './dto/get-all-paginated-dto-sub';
+import { In } from 'typeorm';
 @Injectable()
 export class MahdoodeService {
   constructor(
@@ -23,22 +24,41 @@ export class MahdoodeService {
 
     const [result, total] = await this.mahdoodeRepository.findAndCount({
       // join: {
-      //   alias: 'mahdoode',
-      //   leftJoinAndSelect: {
+      // alias: 'mahdoode',
+      // leftJoinAndSelect: {
       //     mahdoode_dets: 'mahdoode.mahdoodeDets',
-      //   },
       // },
-      order: { name: 'ASC' },
+      // },
+      order: {
+        name: 'ASC',
+      },
       take: take,
       skip: skip * take,
     });
 
-    return {
-      data: result,
-      count: total,
-    };
+    return { data: result, count: total };
   }
 
+  async findSubMahdoode(query: GetAllPaginatedSub) {
+    const out = [];
+    let mahdoode: Mahdoode[] = [];
+    if (query.mahdoode) {
+      mahdoode = await this.mahdoodeRepository.find({
+        where: {
+          id: In(query.mahdoode),
+        },
+      });
+    }
+    for (const i in mahdoode) {
+      for (const j in mahdoode[i].mahdoodeDets) {
+        out.push({
+          id: mahdoode[i].mahdoodeDets[j].id,
+          name: mahdoode[i].mahdoodeDets[j].name,
+        });
+      }
+    }
+    return { data: out };
+  }
   findOne(id: number) {
     return `This action returns a #${id} mahdoode`;
   }
