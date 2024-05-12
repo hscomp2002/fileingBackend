@@ -23,7 +23,7 @@ export class SaleService {
     query: GetAllPaginated,
     alowedMahdoodeIds: any,
   ): Promise<string> {
-    let where = 'DATE(tarikh) >= DATE_SUB(now(), INTERVAL 6 MONTH)';
+    let where = 'DATE(tarikh) >= DATE_SUB(now(), INTERVAL 12 MONTH)';
 
     let mahdoodeIds = [];
     if (query.mahdoode) {
